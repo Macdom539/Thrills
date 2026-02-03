@@ -1,6 +1,13 @@
 import { cart, removeFromCart } from "../data/cart.js";
 import { products } from "../data/product.js";
 import {deliveryOptions} from "../data/delveryOptions.js"
+import {hello} from 'https://unpkg.com/supersimpledev@1.0.1/hello.esm.js';
+import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
+
+hello()
+ const today = dayjs();
+ const deliveryDate = today.clone().add(7, 'days');
+console.log(deliveryDate.format('dddd, MMMM D'));
 
 let cartSummaryHTML = '';
 
@@ -20,7 +27,7 @@ cart.forEach((cartItem) => {
 js-cart-item-container
  js-cart-item-container-${matchingProduct.id}">
             <div class="delivery-date">
-              Delivery date: Tuesday, June 21
+              Delivery date: ${deliveryDate}
             </div>
 
             <div class="cart-item-details-grid">
@@ -68,8 +75,12 @@ js-cart-item-container
     
   function deliveryOptionsHTML(matchingProduct, cartItem) {
     let html = '';
+   
     deliveryOptions.forEach((deliveryOption) => {
-
+      const deliveryDate = today
+      .clone()
+      .add(deliveryOption.deliveryDays, 'day')
+      .format('ddd, DD MM YYYY')
       const priceStrings = deliveryOption.price
        === 0
        ? "FREE"
@@ -85,7 +96,7 @@ js-cart-item-container
              name="delivery-option-${matchingProduct.id}">
              <div>
              <div class="delivery-option-date">
-             Tuesday June 21
+             ${deliveryDate}
              </div>
 
              <div class="delivery-option-price">
